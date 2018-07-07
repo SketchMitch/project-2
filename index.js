@@ -31,7 +31,7 @@ const app = {
 
         const item = this.renderListItem(flick)
         this.list.insertBefore(item, this.list.firstElementChild)
-
+        
         f.reset()
     },
 }

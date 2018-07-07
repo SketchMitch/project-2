@@ -11,13 +11,13 @@ const app = {
          })
     },
 
-    renderListItem: function(flick) {
+    renderListItem(flick) {
         const item = document.createElement('li')
         item.textContent = flick.name
         return item
     },
 
-    handleSubmit: function(ev) {
+    handleSubmit(ev) {
         
         const f = ev.target
         const flick = {

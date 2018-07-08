@@ -14,9 +14,13 @@ const app = {
     },
 
 
-    removeFlick(ev) {
+    removeFlick(flick, ev) {
         const item = event.target.closest('.flick')
         item.remove()
+
+        const i = this.flicks.indexOf(flick)
+        this.flicks.splice(i, 1)
+        
     },
 
 
@@ -27,8 +31,7 @@ const app = {
         item.dataset.id = flick.id
         item.querySelector('.flickName').textContent = flick.name
 
-        item.querySelector('.remove.button')
-        addEventListener('click', this.removeFlick)
+        item.querySelector('.remove.button').addEventListener('click', this.removeFlick.bind(this, flick))
 
 
 

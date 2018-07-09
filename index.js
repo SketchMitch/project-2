@@ -23,7 +23,10 @@ class App {
         
     }
 
-
+    favFlick(flick, ev) {
+        const item = ev.target.closest('.flick')
+        flick.fav = item.classList.toggle('fav')
+    }
 
     renderListItem(flick) {
         const item = this.template.cloneNode(true)
@@ -33,7 +36,7 @@ class App {
 
         item.querySelector('.remove.button').addEventListener('click', this.removeFlick.bind(this, flick))
 
-
+        item.querySelector('.fav.button').addEventListener('click', this.favFlick.bind(this, flick))
 
 
         return item

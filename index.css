@@ -10,3 +10,11 @@ main {
 .template {
     display: none;
 }
+
+.actions .button {
+    margin-bottom: 0;
+}
+
+.flick.fav {
+    background-color: #62e6ff;
+}

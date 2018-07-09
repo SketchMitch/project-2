@@ -6,11 +6,11 @@ class App {
         this.template = document.querySelector(selectors.templateSelector)
 
         document
-         .querySelector(selectors.formSelector)
-         .addEventListener('submit', ev => {
-            ev.preventDefault()
-            this.handleSubmit(ev)
-         })
+            .querySelector(selectors.formSelector)
+            .addEventListener('submit', ev => {
+                ev.preventDefault()
+                this.handleSubmit(ev)
+            })
     }
 
 
@@ -20,7 +20,7 @@ class App {
 
         const i = this.flicks.indexOf(flick)
         this.flicks.splice(i, 1)
-        
+
     }
 
     favFlick(flick, ev) {
@@ -29,12 +29,12 @@ class App {
     }
 
     toggleEditable(flick, ev) {
-        const btn = ev.target
-        const item = btn.closest('.flick')    
+        const item = ev.target.closest('.flick')
+        const btn = item.querySelector('.edit.button')
         const nameField = item.querySelector('.flickName')
 
         if (nameField.isContentEditable) {
-            nameField. contentEditable = false
+            nameField.contentEditable = false
             btn.textContent = 'edit'
             btn.classList.remove('success')
 
@@ -45,21 +45,29 @@ class App {
             btn.textContent = 'save'
             btn.classList.add('success')
         }
+    }
+
+saveOnEnter(flick, ev) {
+    if (ev.key === 'Enter') {
+        this.toggleEditable(flick, ev)
+    }
 }
-
-
 
     renderListItem(flick) {
         const item = this.template.cloneNode(true)
         item.classList.remove('template')
         item.dataset.id = flick.id
-        item.querySelector('.flickName').textContent = flick.name
-
+        
+        const nameSpan = item.querySelector('.flickName')
+        nameSpan.textContent = flick.name
+        nameSpan.addEventListener(
+            'keypress', this.saveOnEnter.bind(this, flick)
+        )
         item.querySelector('.remove.button').addEventListener('click', this.removeFlick.bind(this, flick))
 
         item.querySelector('.fav.button').addEventListener('click', this.favFlick.bind(this, flick))
 
-item.querySelector('.edit.button').addEventListener('click', this.toggleEditable.bind(this, flick))
+        item.querySelector('.edit.button').addEventListener('click', this.toggleEditable.bind(this, flick))
 
 
 
@@ -67,27 +75,27 @@ item.querySelector('.edit.button').addEventListener('click', this.toggleEditable
 
         return item
     }
-  
+
     handleSubmit(ev) {
-        
+
         const f = ev.target
         const flick = {
-            id: ++this.max, 
+            id: ++this.max,
             name: f.flickName.value,
             fav: false,
         }
-        
+
         this.flicks.unshift(flick)
         const item = this.renderListItem(flick)
         this.list.insertBefore(item, this.list.firstElementChild)
-        
+
         f.reset()
     }
-    
+
 }
 
-    const app = new App({
-        formSelector: '#flickForm',
-        listSelector: '#flickList',
-        templateSelector: '.flick.template',
-    })
+const app = new App({
+    formSelector: '#flickForm',
+    listSelector: '#flickList',
+    templateSelector: '.flick.template',
+})
